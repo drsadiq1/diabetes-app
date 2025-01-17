@@ -1136,6 +1136,6 @@ const handleMedicationChange = (type: 'current' | 'plan' | 'other', medication: 
       </div>
     </div>
   );
-};
+
 
 export default App;
