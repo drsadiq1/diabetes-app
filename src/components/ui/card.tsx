@@ -1,9 +1,8 @@
 import * as React from "react"
 
-const Card = React.forwardRef
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+const Card: React.FC<CardProps> = React.forwardRef<HTMLDivElement, CardProps>(({ className = "", ...props }, ref) => (
   <div
     ref={ref}
     className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`}
@@ -12,10 +11,7 @@ const Card = React.forwardRef
 ))
 Card.displayName = "Card"
 
-const CardHeader = React.forwardRef
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+const CardHeader: React.FC<CardProps> = React.forwardRef<HTMLDivElement, CardProps>(({ className = "", ...props }, ref) => (
   <div
     ref={ref}
     className={`flex flex-col space-y-1.5 p-6 ${className}`}
@@ -24,10 +20,7 @@ const CardHeader = React.forwardRef
 ))
 CardHeader.displayName = "CardHeader"
 
-const CardTitle = React.forwardRef
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
+const CardTitle: React.FC<CardProps> = React.forwardRef<HTMLParagraphElement, CardProps>(({ className = "", ...props }, ref) => (
   <h3
     ref={ref}
     className={`text-2xl font-semibold leading-none tracking-tight ${className}`}
@@ -36,10 +29,7 @@ const CardTitle = React.forwardRef
 ))
 CardTitle.displayName = "CardTitle"
 
-const CardContent = React.forwardRef
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+const CardContent: React.FC<CardProps> = React.forwardRef<HTMLDivElement, CardProps>(({ className = "", ...props }, ref) => (
   <div ref={ref} className={`p-6 pt-0 ${className}`} {...props} />
 ))
 CardContent.displayName = "CardContent"
