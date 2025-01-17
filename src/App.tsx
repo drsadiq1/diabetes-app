@@ -136,13 +136,37 @@ const App: React.FC = () => {
     ? medicationOptions.filter((med) => !medicationsToHideForType1.includes(med.name))
     : medicationOptions;
 
-  const handleMedicationChange = (type: 'current' | 'plan' | 'other', medication: string, dose: string) => {
-    const setter = type === 'current' ? 'currentAntiDiabeticTreatment' : type === 'plan' ? 'newAntiDiabeticTreatmentPlan' : 'otherMedications';
-    const existingMedication = state[setter].find((m) => m.medication === medication);
-    const updated = existingMedication
-      ? state[setter].map((m) => (m.medication === medication ? { ...m, dose } : m))
-      : [...state[setter], { medication, dose }];
-    setState({ ...state, [setter]: updated });
+const handleMedicationChange = (type: 'current' | 'plan' | 'other', medication: string, dose: string) => {
+  const setter = type === 'current' ? 'currentAntiDiabeticTreatment' : type === 'plan' ? 'newAntiDiabeticTreatmentPlan' : 'otherMedications';
+  const selectedMedication = medicationOptions.find(med => med.name === medication) || 
+                           otherMedicationOptions.flatMap(cat => cat.medications).find(med => med.name === medication);
+  
+  if (!selectedMedication) return;
+
+  const existingMedication = state[setter].find((m) => m.medication === medication);
+  const updated = existingMedication
+    ? state[setter].map((m) => (m.medication === medication ? { ...m, dose } : m))
+    : [...state[setter], { medication, dose }];
+  setState({ ...state, [setter]: updated });
+
+  // Keep the rest of the function (the part about automatically copying to plan) exactly the same
+  if (type === 'current') {
+    const existingPlanMedication = state.newAntiDiabeticTreatmentPlan.find((m) => m.medication === medication);
+    if (!existingPlanMedication) {
+      setState((prevState) => ({
+        ...prevState,
+        newAntiDiabeticTreatmentPlan: [...prevState.newAntiDiabeticTreatmentPlan, { medication, dose }],
+      }));
+    } else {
+      setState((prevState) => ({
+        ...prevState,
+        newAntiDiabeticTreatmentPlan: prevState.newAntiDiabeticTreatmentPlan.map((m) =>
+          m.medication === medication ? { ...m, dose } : m
+        ),
+      }));
+    }
+  }
+};
 
     // Automatically copy current medications to plan with the same dose
     if (type === 'current') {
