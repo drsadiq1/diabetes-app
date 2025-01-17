@@ -1124,13 +1124,15 @@ const handleMedicationChange = (type: 'current' | 'plan' | 'other', medication: 
           </button>
         </div>
 
-        {/* Display Generated Note */}
-        {state.note && (
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Generated Note</h2>
-            <pre className="bg-gray-100 p-4 rounded-md whitespace-pre-wrap">{state.note}</pre>
-          </div>
-        )}
+{/* Display Generated Note */}
+{state.note && (
+  <div className="mt-8">
+    <h2 className="text-xl font-semibold mb-4">Generated Note</h2>
+    <pre className="bg-gray-100 p-4 rounded-md whitespace-pre-wrap">
+      {state.note}
+    </pre>
+  </div>
+)}
       </div>
     </div>
   );
